@@ -1,0 +1,33 @@
+{%- if ApiClient.Extends and ApiClient.ExtendsImportPath -%}
+import {% raw %}{ {% endraw %}{{ ApiClient.Extends }} } from "{{ ApiClient.ExtendsImportPath }}";
+{% endif %}
+export class {{ ApiClient.ClassName }}{% if ApiClient.Extends %} extends {{ ApiClient.Extends }}{% endif %}
+{
+    #baseUrl: string = "{{ ApiClient.BaseUrl }}";
+
+    constructor() {
+        {% if ApiClient.Extends %}super();
+        {% if ApiClient.ExtendsBaseUrlMethod %}let newBase = super.{{ ApiClient.ExtendsBaseUrlMethod }}();
+        if (newBase) {
+            this.#baseUrl = newBase;
+        }{% endif %}{% endif %}
+    }
+
+    // Remap dates by naming convention (ie. dateCreated -> Date)
+    jsonDateReviver(key: string, value: any)
+    {
+        if (key.startsWith("date"))
+        {
+            return value ? new Date(value) : undefined;
+        }
+        return value;
+    }
+
+{%- for Method in Methods %}
+{{ Method }}
+{%- endfor %}
+}
+
+{% if ApiClient.ExportInstance %}
+export const {{ ApiClient.ClassName | camel }} = new {{ ApiClient.ClassName }}();
+{% endif %}

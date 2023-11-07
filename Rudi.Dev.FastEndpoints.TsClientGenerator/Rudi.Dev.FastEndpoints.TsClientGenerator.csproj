@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <OutputType>Library</OutputType>
+        <IsPackable>true</IsPackable>
+        <PackageId>Rudi.Dev.FastEndpoints.TsClientGenerator</PackageId>
+        <RepositoryUrl>https://github.com/rudiv/Rudi.Dev.FastEndpoints.TsClientGenerator</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageTags>fastendpoints,typescript,ts client,generator</PackageTags>
+        <Description>
+            Helper Middleware to attach the ClaimsPrincipal to the FunctionContext. Only supports App Roles for Authorization.
+        </Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <MinVerMinimumMajorMinor>1.0</MinVerMinimumMajorMinor>
+        <MinVerIgnoreHeight>true</MinVerIgnoreHeight>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FastEndpoints" Version="5.18.0" />
+        <PackageReference Include="Fluid.Core" Version="2.5.0" />
+        <PackageReference Include="MinVer" Version="4.3.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="TypeGen" Version="4.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Templates\ClassBaseTemplate.liquid" />
+      <EmbeddedResource Include="Templates\ClassBaseTemplate.liquid" />
+      <None Remove="Templates\GetMethodTemplate.liquid" />
+      <EmbeddedResource Include="Templates\GetMethodTemplate.liquid" />
+      <None Remove="Templates\PostMethodTemplate.liquid" />
+      <EmbeddedResource Include="Templates\PostMethodTemplate.liquid" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\README.md">
+        <Link>README.md</Link>
+      </Content>
+    </ItemGroup>
+
+</Project>

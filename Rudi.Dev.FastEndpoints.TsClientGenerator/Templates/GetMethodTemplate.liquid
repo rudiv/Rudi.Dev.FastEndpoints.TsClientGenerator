@@ -1,0 +1,41 @@
+    public async {{ Method.Name }}({{ Method.ParameterList }}): Promise<{{ Method.ResponseTypeName }}> {
+        {% for param in Method.InterpolatedDtoProperties -%}
+        const {{ param | camel }} = encodeURIComponent(request.{{ param | camel }});
+        {% endfor %}
+        {% for param in Method.InterpolatedUnboundDtoProperties -%}
+        const {{ param | camel }} = encodeURIComponent(request.{{ param | camel }});
+        {% endfor %}
+        {% for param in Method.InterpolatedNonDtoProperties -%}
+        {{ param | camel }} = encodeURIComponent({{ param | camel }});
+        {%- endfor -%}
+        const url = this.#baseUrl + {% if Method.RouteIsInterpolated -%}
+        `{{ Method.Route }}`;
+        {%- else -%}
+        "{{ Method.Route }}";
+        {%- endif %}
+        
+        let fetchOptions: RequestInit = {
+            method: "GET",
+        };
+    
+        {% if Options.ApiClientOptions.ExtendsRequestInitMethod -%}
+        fetchOptions = await super.{{ Options.ApiClientOptions.ExtendsRequestInitMethod }}(fetchOptions);
+        {%- endif %}
+        
+        const response = await fetch(url, fetchOptions);
+        if (response.ok) {
+            const responseText = await response.text();
+            if (!responseText) 
+            {
+                return null as any;
+            }
+            try {
+                return JSON.parse(responseText, this.jsonDateReviver) as {{ Method.ResponseTypeName }};
+            } catch (e: any) {
+                throw new Error("Error while parsing response from {{ Method.Name }}: " + e.message);
+            }
+        } else {
+            throw new Error("HTTP Error while executing {{ Method.Name }}: " + response.status + " " + response.statusText);
+        }
+    }
+    
