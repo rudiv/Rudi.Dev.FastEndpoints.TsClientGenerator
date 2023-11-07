@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <OutputType>Library</OutputType>
@@ -10,10 +10,10 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageTags>fastendpoints,typescript,ts client,generator</PackageTags>
         <Description>
-            Helper Middleware to attach the ClaimsPrincipal to the FunctionContext. Only supports App Roles for Authorization.
+            Generates a customisable, simple TypeScript client for your FastEndpoints project without the need for Swagger.
         </Description>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <MinVerMinimumMajorMinor>1.0</MinVerMinimumMajorMinor>
+        <MinVerMinimumMajorMinor>0.1</MinVerMinimumMajorMinor>
         <MinVerIgnoreHeight>true</MinVerIgnoreHeight>
     </PropertyGroup>
 
@@ -37,9 +37,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\README.md">
-        <Link>README.md</Link>
-      </Content>
+        <None Include="..\README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
 
 </Project>
